@@ -26,7 +26,7 @@ public class ListingImage {
     private String imageUrl;
 
     @Column(name = "is_main", nullable = false)
-    private boolean isMain = false;
+    private boolean isMain;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
