@@ -32,7 +32,7 @@ public class Listing {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private ListingStatus status = ListingStatus.ACTIVE;
+    private ListingStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -47,7 +47,7 @@ public class Listing {
     private User seller;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ListingImage> images = new ArrayList<>();
+    private List<ListingImage> images;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
