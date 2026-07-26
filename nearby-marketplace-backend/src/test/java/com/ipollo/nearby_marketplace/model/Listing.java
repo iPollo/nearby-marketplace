@@ -55,8 +55,6 @@ public class Listing {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public Listing() {}
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
