@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/listings")
@@ -79,4 +80,13 @@ public class ListingController {
         listingService.delete(id, currentUser);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/images")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id,
+                                              @RequestParam("file") MultipartFile file,
+                                              @AuthenticationPrincipal User currentUser) {
+        String imageUrl = listingService.addImage(id, file, currentUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(imageUrl);
+    }
+
 }
