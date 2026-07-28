@@ -17,18 +17,35 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
     Page<Listing> findByCategoryIdAndStatus(Long categoryId, ListingStatus status, Pageable pageable);
 
     // Query to apply Haversine method to find shortest straight-line distance on the surface of a sphere
-    @Query("""
-        SELECT l FROM Listing l
-        WHERE l.status = :status
-        AND (
-            6371 * acos(
-                cos(radians(:latitude)) * cos(radians(l.city.latitude)) *
-                cos(radians(l.city.longitude) - radians(:longitude)) +
-                sin(radians(:latitude)) * sin(radians(l.city.latitude))
-            )
-        ) <= :radiusKm
-        """)
-
+    @Query(value = """
+    SELECT l.* FROM listings l
+    JOIN cities c ON l.city_id = c.id
+    WHERE l.status = :#{#status.name()}
+    AND (
+        6371 * acos(
+            LEAST(1.0, GREATEST(-1.0,
+                cos(radians(:latitude)) * cos(radians(c.latitude)) *
+                cos(radians(c.longitude) - radians(:longitude)) +
+                sin(radians(:latitude)) * sin(radians(c.latitude))
+            ))
+        )
+    ) <= :radiusKm
+    """,
+            countQuery = """
+    SELECT count(*) FROM listings l
+    JOIN cities c ON l.city_id = c.id
+    WHERE l.status = :#{#status.name()}
+    AND (
+        6371 * acos(
+            LEAST(1.0, GREATEST(-1.0,
+                cos(radians(:latitude)) * cos(radians(c.latitude)) *
+                cos(radians(c.longitude) - radians(:longitude)) +
+                sin(radians(:latitude)) * sin(radians(c.latitude))
+            ))
+        )
+    ) <= :radiusKm
+    """,
+            nativeQuery = true)
     Page<Listing> findNearby(
             @Param("latitude") Double latitude,
             @Param("longitude") Double longitude,
