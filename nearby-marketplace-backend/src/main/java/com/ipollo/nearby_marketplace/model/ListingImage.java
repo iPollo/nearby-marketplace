@@ -1,17 +1,16 @@
 package com.ipollo.nearby_marketplace.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "listing_images")
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
+@NoArgsConstructor
 public class ListingImage {
 
     @Id
@@ -26,7 +25,7 @@ public class ListingImage {
     private String imageUrl;
 
     @Column(name = "is_main", nullable = false)
-    private boolean isMain;
+    private boolean isMain = false;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -35,5 +34,4 @@ public class ListingImage {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-
 }

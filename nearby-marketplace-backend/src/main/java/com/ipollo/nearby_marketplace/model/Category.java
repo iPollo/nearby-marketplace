@@ -1,13 +1,16 @@
 package com.ipollo.nearby_marketplace.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "categories")
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Category {
 
@@ -17,5 +20,4 @@ public class Category {
 
     @Column(nullable = false, unique = true, length = 80)
     private String name;
-
 }

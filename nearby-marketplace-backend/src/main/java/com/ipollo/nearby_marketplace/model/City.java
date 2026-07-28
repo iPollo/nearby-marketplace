@@ -2,12 +2,14 @@ package com.ipollo.nearby_marketplace.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "cities")
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class City {
 
