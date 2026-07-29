@@ -28,3 +28,11 @@ export interface ListingResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ListingRequest {
+  title: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  cityId: number;
+}

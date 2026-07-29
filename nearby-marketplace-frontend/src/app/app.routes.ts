@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
 
@@ -32,8 +33,22 @@ export const routes: Routes = [
         path: 'home',
         loadComponent: () =>
           import('./features/home/pages/home/home').then(m => m.Home)
-      }
+      },
 
+      {
+        path: 'listings/new',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/listings/pages/create-listing/create-listing/create-listing').then(m => m.CreateListing)
+      },
+
+
+
+      {
+        path: 'listings/:id',
+        loadComponent: () =>
+          import('./features/listings/pages/listing-detail/listing-detail').then(m => m.ListingDetail)
+      }
 
     ]
   },
@@ -41,7 +56,7 @@ export const routes: Routes = [
   // fallback
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'home'
   }
 
 ];

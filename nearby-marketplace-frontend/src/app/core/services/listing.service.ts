@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ListingResponse } from '../models/listing.model';
+import { ListingRequest, ListingResponse } from '../models/listing.model';
 import { PageResponse } from '../models/page.model';
 import { environment } from '../../../environments/environment';
 
@@ -13,10 +13,7 @@ export class ListingService {
   constructor(private http: HttpClient) {}
 
   findActive(page = 0, size = 12): Observable<PageResponse<ListingResponse>> {
-    const params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
-
+    const params = new HttpParams().set('page', page).set('size', size);
     return this.http.get<PageResponse<ListingResponse>>(this.baseUrl, { params });
   }
 
@@ -27,7 +24,6 @@ export class ListingService {
       .set('radiusKm', radiusKm)
       .set('page', page)
       .set('size', size);
-
     return this.http.get<PageResponse<ListingResponse>>(`${this.baseUrl}/nearby`, { params });
   }
 
@@ -35,4 +31,13 @@ export class ListingService {
     return this.http.get<ListingResponse>(`${this.baseUrl}/${id}`);
   }
 
+  create(request: ListingRequest): Observable<ListingResponse> {
+    return this.http.post<ListingResponse>(this.baseUrl, request);
+  }
+
+  uploadImage(listingId: number, file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.baseUrl}/${listingId}/images`, formData, { responseType: 'text' });
+  }
 }

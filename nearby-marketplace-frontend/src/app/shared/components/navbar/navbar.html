@@ -19,27 +19,41 @@
     <!-- Ações -->
     <div class="navbar-actions">
 
-      <button class="icon-btn" aria-label="Notifications">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <span class="badge-dot"></span>
-      </button>
+      @if (authService.currentUserEmail()) {
 
-      <button class="icon-btn" aria-label="Cart">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M6 6h15l-1.5 9h-12z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-          <path d="M6 6L5 2H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
-          <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
-        </svg>
-        <span class="badge-dot"></span>
-      </button>
+        <a routerLink="/listings/new" class="icon-btn" aria-label="Create listing">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </a>
 
-      <button class="user-menu" aria-label="Account">
-        <span class="avatar">AL</span>
-      </button>
+        <button class="icon-btn" aria-label="Notifications">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="badge-dot"></span>
+        </button>
+
+        <div class="user-menu-wrapper">
+          <button class="user-menu" aria-label="Account" (click)="toggleMenu()">
+            <span class="avatar">{{ initials }}</span>
+          </button>
+
+          @if (isMenuOpen()) {
+            <div class="user-dropdown">
+              <a routerLink="/listings/mine" class="dropdown-item" (click)="closeMenu()">My Listings</a>
+              <button class="dropdown-item dropdown-logout" (click)="logout()">Sign out</button>
+            </div>
+          }
+        </div>
+
+      } @else {
+
+        <a routerLink="/login" class="nav-link-plain">Sign in</a>
+        <a routerLink="/register" class="nav-btn-primary">Sign up</a>
+
+      }
 
     </div>
 

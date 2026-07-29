@@ -1,0 +1,89 @@
+<section class="listing-detail-page">
+
+  @if (loading()) {
+    <p class="state-msg">Loading listing...</p>
+  } @else if (error() || !listing()) {
+    <p class="state-msg error">Listing not found.</p>
+  } @else {
+
+    @let item = listing()!;
+
+    <button class="back-link" (click)="goBack()">← Back</button>
+
+    <div class="detail-grid">
+
+      <!-- Galeria -->
+      <div class="gallery">
+
+        <div class="gallery-main">
+          @if (item.imageUrls.length > 0) {
+            <img [src]="item.imageUrls[activeImageIndex()]" [alt]="item.title">
+          } @else {
+            <div class="gallery-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                <circle cx="8.5" cy="10" r="1.5" fill="currentColor"/>
+                <path d="M21 15l-5-4-4 3-3-2-6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          }
+
+          @if (item.status !== 'ACTIVE') {
+            <span class="status-badge">{{ item.status === 'SOLD' ? 'Sold' : 'Inactive' }}</span>
+          }
+        </div>
+
+        @if (item.imageUrls.length > 1) {
+          <div class="gallery-thumbs">
+            @for (url of item.imageUrls; track $index) {
+              <button
+                class="thumb"
+                [class.active]="activeImageIndex() === $index"
+                (click)="selectImage($index)">
+                <img [src]="url" [alt]="item.title + ' ' + ($index + 1)">
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Informações -->
+      <div class="info-panel">
+
+        <span class="category-tag">{{ item.category.name }}</span>
+
+        <h1>{{ item.title }}</h1>
+
+        <span class="price">{{ item.price | currency:'BRL' }}</span>
+
+        <div class="meta-row">
+          <span class="meta-item">📍 {{ item.city.name }}</span>
+          <span class="meta-item">🗓 {{ item.createdAt | date:'MMM d, y' }}</span>
+        </div>
+
+        <div class="seller-card">
+          <span class="seller-avatar">{{ item.sellerName.slice(0, 2).toUpperCase() }}</span>
+          <div>
+            <span class="seller-label">Seller</span>
+            <span class="seller-name">{{ item.sellerName }}</span>
+          </div>
+        </div>
+
+        <div class="description">
+          <h3>Description</h3>
+          <p>{{ item.description || 'No description provided.' }}</p>
+        </div>
+
+        @if (authService.currentUserEmail()) {
+          <button class="contact-btn">Contact Seller</button>
+        } @else {
+          <a routerLink="/login" class="contact-btn">Sign in to contact seller</a>
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</section>
