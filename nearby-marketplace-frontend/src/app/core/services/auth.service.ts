@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, DecodedToken, LoginRequest, RegisterRequest } from '../models/auth.model';
+import { AuthResponse, DecodedToken, LoginRequest, RegisterRequest, UserResponse } from '../models/auth.model';
 
 const TOKEN_KEY = 'nearby_token';
 
@@ -12,6 +12,7 @@ export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/auth`;
 
   currentUserEmail = signal<string | null>(this.getEmailFromStoredToken());
+  currentUser = signal<UserResponse | null>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -36,6 +37,15 @@ export class AuthService {
     return localStorage.getItem(TOKEN_KEY);
   }
 
+  loadCurrentUser(): void {
+    if (!this.isAuthenticated()) return;
+
+    this.getCurrentUser().subscribe({
+      next: (user) => this.currentUser.set(user),
+      error: () => this.logout()
+    });
+  }
+
   isAuthenticated(): boolean {
     const token = this.getToken();
     if (!token) return false;
@@ -45,6 +55,10 @@ export class AuthService {
 
     const isExpired = decoded.exp * 1000 < Date.now();
     return !isExpired;
+  }
+
+  getCurrentUser(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${this.baseUrl}/me`);
   }
 
   private setSession(token: string): void {
@@ -58,6 +72,7 @@ export class AuthService {
     if (!token) return null;
     return this.decodeToken(token)?.sub ?? null;
   }
+
 
   private decodeToken(token: string): DecodedToken | null {
     try {

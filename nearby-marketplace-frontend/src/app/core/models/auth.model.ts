@@ -19,3 +19,10 @@ export interface DecodedToken {
   iat: number;
   exp: number;
 }
+
+export interface UserResponse {
+  id: number;
+  name: string;
+  email: string;
+  city: { id: number; name: string };
+}
