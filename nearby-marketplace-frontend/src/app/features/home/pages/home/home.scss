@@ -1,0 +1,16 @@
+.ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.state-msg {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 40px 0;
+  text-align: center;
+
+  &.error {
+    color: #dc2626;
+  }
+}

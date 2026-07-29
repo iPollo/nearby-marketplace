@@ -1,0 +1,27 @@
+<article class="ad-card">
+
+  <div class="ad-thumb">
+    @if (thumbnail) {
+      <img [src]="thumbnail" [alt]="listing.title">
+    } @else {
+      <div class="ad-thumb-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+          <circle cx="8.5" cy="10" r="1.5" fill="currentColor"/>
+          <path d="M21 15l-5-4-4 3-3-2-6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    }
+
+    @if (listing.status !== 'ACTIVE') {
+      <span class="ad-status-badge">{{ listing.status === 'SOLD' ? 'Sold' : 'Inactive' }}</span>
+    }
+  </div>
+
+  <div class="ad-body">
+    <span class="ad-price">{{ listing.price | currency:'BRL' }}</span>
+    <h3 class="ad-title">{{ listing.title }}</h3>
+    <span class="ad-location">{{ listing.city.name }}</span>
+  </div>
+
+</article>
