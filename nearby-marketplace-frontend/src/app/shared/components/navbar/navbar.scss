@@ -194,7 +194,7 @@
   text-decoration: none;
 }
 
-// ---------- Responsivo ----------
+
 @media (max-width: 720px) {
   .navbar-inner {
     padding: 0 16px;
@@ -205,3 +205,4 @@
     display: none; // em telas pequenas, vira um ícone de lupa que abre busca (próxima iteração)
   }
 }
+

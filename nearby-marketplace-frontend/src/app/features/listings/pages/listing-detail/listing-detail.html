@@ -71,13 +71,30 @@
 
         @if (isOwner) {
           <div class="owner-actions">
-            <button class="action-btn" (click)="editListing()">Edit</button>
+
+            <button class="action-btn" (click)="editListing()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Edit
+            </button>
 
             @if (item.status === 'ACTIVE') {
-              <button class="action-btn action-btn--primary" (click)="markAsSold()">Mark as sold</button>
+              <button class="action-btn action-btn--primary" (click)="markAsSold()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Mark as sold
+              </button>
             }
 
-            <button class="action-btn action-btn--danger" (click)="deleteListing()">Delete</button>
+            <button class="action-btn action-btn--danger" (click)="deleteListing()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Delete
+            </button>
+
           </div>
         }
 
@@ -87,10 +104,8 @@
           <p>{{ item.description || 'No description provided.' }}</p>
         </div>
 
-        @if (authService.currentUserEmail()) {
+        @if (authService.currentUserEmail() && !isOwner) {
           <button class="contact-btn">Contact Seller</button>
-        } @else {
-          <a routerLink="/login" class="contact-btn">Sign in to contact seller</a>
         }
 
       </div>

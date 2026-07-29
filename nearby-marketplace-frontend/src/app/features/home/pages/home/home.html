@@ -1,11 +1,25 @@
 <section class="home-page">
 
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">Marketplace</p>
+      <h2>Recent listings</h2>
+    </div>
+
+    @if (!loading() && !error()) {
+      <span class="result-count">{{ totalElements() }} {{ totalElements() === 1 ? 'result' : 'results' }}</span>
+    }
+  </div>
+
   @if (loading()) {
     <p class="state-msg">Loading listings...</p>
   } @else if (error()) {
     <p class="state-msg error">Couldn't load listings. Please try again.</p>
   } @else if (listings().length === 0) {
-    <p class="state-msg">No listings found yet.</p>
+    <div class="empty-state">
+      <p>No listings found yet.</p>
+      <span>Be the first to sell something in your area.</span>
+    </div>
   } @else {
     <div class="ad-grid">
       @for (listing of listings(); track listing.id) {

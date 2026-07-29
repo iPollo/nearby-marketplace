@@ -31,6 +31,8 @@ export class Home implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  totalElements = signal(0);
+
   private loadPage(page: number): void {
     this.loading.set(true);
 
@@ -39,6 +41,7 @@ export class Home implements OnInit {
         this.listings.set(data.content);
         this.currentPage.set(data.number);
         this.totalPages.set(data.totalPages);
+        this.totalElements.set(data.totalElements);
         this.loading.set(false);
       },
       error: () => {

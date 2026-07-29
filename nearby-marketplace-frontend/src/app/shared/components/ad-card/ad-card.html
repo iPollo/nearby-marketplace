@@ -18,10 +18,16 @@
     }
   </div>
 
-  <div class="ad-body">
-    <span class="ad-price">{{ listing.price | currency:'BRL' }}</span>
-    <h3 class="ad-title">{{ listing.title }}</h3>
-    <span class="ad-location">{{ listing.city.name }}</span>
-  </div>
+<div class="ad-body">
+  <span class="ad-price">{{ listing.price | currency:'BRL' }}</span>
+  <h3 class="ad-title">{{ listing.title }}</h3>
+  <span class="ad-location">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+      <path d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    {{ listing.city.name }}
+  </span>
+</div>
 
 </article>
