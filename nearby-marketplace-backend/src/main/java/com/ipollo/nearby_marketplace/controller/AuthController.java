@@ -3,6 +3,7 @@ package com.ipollo.nearby_marketplace.controller;
 import com.ipollo.nearby_marketplace.dto.AuthResponse;
 import com.ipollo.nearby_marketplace.dto.LoginRequest;
 import com.ipollo.nearby_marketplace.dto.RegisterRequest;
+import com.ipollo.nearby_marketplace.dto.UserResponse;
 import com.ipollo.nearby_marketplace.model.User;
 import com.ipollo.nearby_marketplace.security.JwtService;
 import com.ipollo.nearby_marketplace.service.UserService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,5 +40,10 @@ public class AuthController {
         User user = userService.findByEmail(request.email());
         String token = jwtService.generateToken(user);
         return ResponseEntity.ok(new AuthResponse(token));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me(@AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(UserResponse.from(currentUser));
     }
 }
