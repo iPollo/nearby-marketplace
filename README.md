@@ -1,5 +1,14 @@
 # NearBy Marketplace
 
+![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4-6DB33F?logo=springboot&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)
+![AWS SDK](https://img.shields.io/badge/AWS%20SDK%20for%20Java-S3--compatible-FF9900?logo=amazonaws&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Render-2496ED?logo=docker&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Frontend-000000?logo=vercel&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 A full-stack, location-aware classifieds marketplace where users can list items for sale, upload photos, and discover listings near them. Built end-to-end with **Angular** and **Spring Boot**, deployed for free across four cloud providers.
 
 **[Live Demo](https://nearby-marketplace-peach.vercel.app)** · **[API (Render)](https://nearby-marketplace.onrender.com/api/cities)** · **[Report a Bug](../../issues)**
@@ -30,7 +39,7 @@ NearBy Marketplace lets users create an account, publish listings with photos, a
 
 - 🔐 **Authentication** — JWT-based registration and login, with protected routes on both frontend and backend
 - 📝 **Full listing CRUD** — create, view, edit, delete, and mark listings as sold
-- 📸 **Image uploads** — listing photos stored in Cloudflare R2 (S3-compatible object storage)
+- 📸 **Image uploads** — listing photos stored via the AWS SDK for Java, using Cloudflare R2 as the S3-compatible backing store
 - 📍 **Proximity search** — find listings within a radius using the Haversine formula, no paid geospatial extensions required
 - 📄 **Pagination** — server-side paging on all listing queries
 - 🛡️ **Ownership authorization** — only a listing's owner can edit, delete, or mark it as sold, enforced server-side regardless of what the client sends
@@ -55,14 +64,17 @@ NearBy Marketplace lets users create an account, publish listings with photos, a
 | Spring Security + JWT (jjwt) | Stateless authentication |
 | Flyway | Database schema migrations |
 | Lombok | Boilerplate reduction |
+| **AWS SDK for Java** (`software.amazon.awssdk:s3`) | Object storage client, used against an S3-compatible endpoint (see note below) |
 
 ### Infrastructure (all free-tier)
 | Service | Role |
 |---|---|
 | [Neon](https://neon.tech) | Serverless PostgreSQL |
-| [Cloudflare R2](https://developers.cloudflare.com/r2/) | S3-compatible object storage for listing images |
+| [Cloudflare R2](https://developers.cloudflare.com/r2/) | S3-compatible object storage for listing images, accessed through the AWS SDK for Java |
 | [Render](https://render.com) | Backend hosting (Docker container) |
 | [Vercel](https://vercel.com) | Frontend static hosting |
+
+> **A note on storage:** listing images are stored using the official **AWS SDK for Java**, pointed at a Cloudflare R2 bucket rather than AWS itself. R2 exposes a fully S3-compatible API, so the exact same client code — `S3Client`, `PutObjectRequest`, credentials provider — is used unmodified. This was a deliberate choice: R2 offers a permanent free tier with zero egress fees, avoiding the risk of AWS's newer credit-based free tier expiring or auto-closing the account. Pointing the same code at real AWS S3 in production would require changing only the endpoint configuration.
 
 ## Architecture
 
@@ -87,17 +99,6 @@ nearby-marketplace/
 ```
 
 The frontend and backend communicate exclusively over REST — there's no server-side rendering coupling between them, so each is deployed and scaled independently.
-
-## Architecture Decisions
-
-A few notable trade-offs made along the way, and why:
-
-- **Haversine formula over PostGIS** — proximity search is implemented as a plain SQL calculation (`6371 * acos(...)`) rather than requiring a PostGIS extension. It's less precise for very large-scale geospatial workloads, but sufficient for city-level radius search and avoids adding infrastructure complexity for this project's scope.
-- **Cloudflare R2 over AWS S3** — R2 offers a permanent free tier (10GB, zero egress fees) with an S3-compatible API, avoiding the risk of AWS's credit-based free tier expiring or auto-closing the account. The same AWS SDK code would work against real S3 with only an endpoint change.
-- **DTOs for every request/response** — entities are never serialized directly. This avoids leaking sensitive fields (like password hashes), prevents infinite recursion from bidirectional JPA relationships, and decouples the API contract from the database schema.
-- **Server-side ownership checks** — "only the owner can edit/delete" is enforced in the service layer using the authenticated principal, never trusted from client-supplied data.
-- **Monorepo structure** — frontend and backend live in one repository for easier portfolio review and simpler local development, at the cost of independent deploy pipelines (a reasonable trade-off at this project's scale).
-- **`spring.jpa.open-in-view=true`** — kept enabled deliberately for simplicity at this scale, aware of the trade-off (lazy-loading resolution happens implicitly during view rendering rather than being explicitly scoped to the service layer).
 
 ## API Endpoints
 
@@ -169,15 +170,26 @@ This project is deployed as two independent, freely-hosted services:
 
 - **Backend**: Dockerized Spring Boot app on [Render](https://render.com) (free tier)
 - **Database**: [Neon](https://neon.tech) serverless PostgreSQL (free tier)
-- **Image storage**: [Cloudflare R2](https://developers.cloudflare.com/r2/) (free tier, 10GB)
+- **Image storage**: [Cloudflare R2](https://developers.cloudflare.com/r2/) accessed via the AWS SDK for Java (free tier, 10GB)
 - **Frontend**: Static build on [Vercel](https://vercel.com) (free tier)
+
+## Architecture Decisions
+
+A few notable trade-offs made along the way, and why:
+
+- **Haversine formula over PostGIS** — proximity search is implemented as a plain SQL calculation (`6371 * acos(...)`) rather than requiring a PostGIS extension. It's less precise for very large-scale geospatial workloads, but sufficient for city-level radius search and avoids adding infrastructure complexity for this project's scope.
+- **AWS SDK for Java against Cloudflare R2, not AWS S3** — see the storage note above. Chosen specifically to avoid the risk of AWS's credit-based free tier expiring or auto-closing the account, while still using the real, production-grade AWS SDK.
+- **DTOs for every request/response** — entities are never serialized directly. This avoids leaking sensitive fields (like password hashes), prevents infinite recursion from bidirectional JPA relationships, and decouples the API contract from the database schema.
+- **Server-side ownership checks** — "only the owner can edit/delete" is enforced in the service layer using the authenticated principal, never trusted from client-supplied data.
+- **Monorepo structure** — frontend and backend live in one repository for easier portfolio review and simpler local development, at the cost of independent deploy pipelines (a reasonable trade-off at this project's scale).
+- **`spring.jpa.open-in-view=true`** — kept enabled deliberately for simplicity at this scale, aware of the trade-off (lazy-loading resolution happens implicitly during view rendering rather than being explicitly scoped to the service layer).
 
 ## Roadmap
 
 - [ ] In-app messaging between buyer and seller (WebSockets)
 - [ ] Delete/replace individual listing images without deleting the whole listing
 - [ ] Location-based search UI on the frontend (currently backend-only)
-- [ ] Unit and integration tests (JUnit / Jasmine)
+- [ ] Unit and integration tests (JUnit / Jasmine) with real CI coverage reporting
 - [ ] Favorite/save listings
 
 ## License
@@ -186,5 +198,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**Henrique Selau de Oliveira**
+**Henrique Selau de Oliveira (iPollo)**
 [LinkedIn](#) · [GitHub](#) · [Portfolio](#)
