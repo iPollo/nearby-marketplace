@@ -1,14 +1,14 @@
 <section class="home-page">
 
-  @if (loading) {
+  @if (loading()) {
     <p class="state-msg">Loading listings...</p>
-  } @else if (error) {
+  } @else if (error()) {
     <p class="state-msg error">Couldn't load listings. Please try again.</p>
-  } @else if (listings.length === 0) {
+  } @else if (listings().length === 0) {
     <p class="state-msg">No listings found yet.</p>
   } @else {
     <div class="ad-grid">
-      @for (listing of listings; track listing.id) {
+      @for (listing of listings(); track listing.id) {
         <app-ad-card [listing]="listing"></app-ad-card>
       }
     </div>

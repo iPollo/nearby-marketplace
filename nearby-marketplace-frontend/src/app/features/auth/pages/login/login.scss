@@ -53,6 +53,7 @@
   margin: 20px 0 16px;
 }
 
+
 .brand-panel p {
   color: rgba(255, 255, 255, .8);
   font-size: 15px;
@@ -115,6 +116,12 @@
   align-items: center;
   background: var(--cloud);
   padding: 32px;
+}
+
+.form-error {
+  color: #dc2626;
+  font-size: 13px;
+  margin: -8px 0 12px;
 }
 
 .login-card {

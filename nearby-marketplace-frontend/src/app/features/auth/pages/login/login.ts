@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +12,29 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class Login {
 
-  constructor(private router: Router) {}
+  email = '';
+  password = '';
+
+  loading = signal(false);
+  errorMessage = signal<string | null>(null);
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
+    this.errorMessage.set(null);
+    this.loading.set(true);
 
-    // jumper to build frontend pages, TODO: implement backend AuthService
-    console.log("submit");
-
-    this.router.navigate(['/home']);
+    this.authService.login({ email: this.email, password: this.password }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.errorMessage.set(
+          err.status === 401 ? 'Invalid email or password.' : 'Something went wrong. Please try again.'
+        );
+      }
+    });
   }
-
 }
