@@ -186,5 +186,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**[Your Name]**
+**Henrique Selau de Oliveira**
 [LinkedIn](#) · [GitHub](#) · [Portfolio](#)
