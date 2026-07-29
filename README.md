@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/e008tWH.jpeg" alt="NearBy Marketplace logo" width="120">
+  <img src="https://i.imgur.com/YUmqd7j.png" alt="NearBy Marketplace logo" width="900" height = "600">
 </p>
 
 <h1 align="center">NearBy Marketplace</h1>
