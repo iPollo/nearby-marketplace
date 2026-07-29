@@ -40,7 +40,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "http://localhost:4200",
-                "https://nearby-marketplace-frontend.vercel.app"
+                "https://nearby-marketplace-peach.vercel.app",
+                "https://nearby-marketplace-git-main-ipollos-projects.vercel.app"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
