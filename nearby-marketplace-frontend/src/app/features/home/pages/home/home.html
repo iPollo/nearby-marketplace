@@ -12,6 +12,12 @@
         <app-ad-card [listing]="listing"></app-ad-card>
       }
     </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
   }
 
 </section>

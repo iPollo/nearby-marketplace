@@ -1,0 +1,44 @@
+@if (totalPages > 1) {
+  <nav class="pagination">
+
+    <button
+      class="page-btn page-btn--nav"
+      [disabled]="currentPage === 0"
+      (click)="previous()"
+      aria-label="Previous page">
+      ‹
+    </button>
+
+    @if (displayPages[0] > 0) {
+      <button class="page-btn" (click)="goTo(0)">1</button>
+      @if (displayPages[0] > 1) {
+        <span class="ellipsis">…</span>
+      }
+    }
+
+    @for (page of displayPages; track page) {
+      <button
+        class="page-btn"
+        [class.active]="page === currentPage"
+        (click)="goTo(page)">
+        {{ page + 1 }}
+      </button>
+    }
+
+    @if (displayPages[displayPages.length - 1] < totalPages - 1) {
+      @if (displayPages[displayPages.length - 1] < totalPages - 2) {
+        <span class="ellipsis">…</span>
+      }
+      <button class="page-btn" (click)="goTo(totalPages - 1)">{{ totalPages }}</button>
+    }
+
+    <button
+      class="page-btn page-btn--nav"
+      [disabled]="currentPage === totalPages - 1"
+      (click)="next()"
+      aria-label="Next page">
+      ›
+    </button>
+
+  </nav>
+}

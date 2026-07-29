@@ -1,0 +1,73 @@
+<section class="edit-listing-page">
+
+  @if (loading()) {
+    <p class="state-msg">Loading listing...</p>
+  } @else if (notFoundOrForbidden()) {
+    <p class="state-msg error">You can't edit this listing.</p>
+  } @else {
+
+    <div class="form-card">
+
+      <span class="eyebrow">Edit listing</span>
+      <h2>Update your listing</h2>
+      <p class="subtitle">Make changes and save when you're ready.</p>
+
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" name="title" [(ngModel)]="title" required>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" [(ngModel)]="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label>Price (R$)</label>
+            <input type="number" name="price" [(ngModel)]="price" min="0" step="0.01" required>
+          </div>
+
+          <div class="form-group">
+            <label>Category</label>
+            <select name="categoryId" [(ngModel)]="categoryId" required>
+              <option [ngValue]="null" disabled>Select a category</option>
+              @for (category of categories(); track category.id) {
+                <option [ngValue]="category.id">{{ category.name }}</option>
+              }
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label>City</label>
+          <select name="cityId" [(ngModel)]="cityId" required>
+            <option [ngValue]="null" disabled>Select your city</option>
+            @for (city of cities(); track city.id) {
+              <option [ngValue]="city.id">{{ city.name }}</option>
+            }
+          </select>
+        </div>
+
+        @if (errorMessage()) {
+          <p class="form-error">{{ errorMessage() }}</p>
+        }
+
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+          <button type="submit" class="save-btn" [disabled]="saving()">
+            {{ saving() ? 'Saving...' : 'Save changes' }}
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+</section>

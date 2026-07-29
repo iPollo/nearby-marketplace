@@ -53,6 +53,13 @@ export const routes: Routes = [
         path: 'listings/:id',
         loadComponent: () =>
           import('./features/listings/pages/listing-detail/listing-detail').then(m => m.ListingDetail)
+      },
+
+      {
+        path: 'listings/:id/edit',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/listings/pages/edit-listing/edit-listing').then(m => m.EditListing)
       }
 
     ]
