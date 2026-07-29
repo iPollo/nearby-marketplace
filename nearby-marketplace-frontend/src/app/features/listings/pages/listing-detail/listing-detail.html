@@ -69,6 +69,19 @@
           </div>
         </div>
 
+        @if (isOwner) {
+          <div class="owner-actions">
+            <button class="action-btn" (click)="editListing()">Edit</button>
+
+            @if (item.status === 'ACTIVE') {
+              <button class="action-btn action-btn--primary" (click)="markAsSold()">Mark as sold</button>
+            }
+
+            <button class="action-btn action-btn--danger" (click)="deleteListing()">Delete</button>
+          </div>
+        }
+
+
         <div class="description">
           <h3>Description</h3>
           <p>{{ item.description || 'No description provided.' }}</p>

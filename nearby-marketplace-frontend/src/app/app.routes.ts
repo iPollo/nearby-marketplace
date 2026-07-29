@@ -42,7 +42,12 @@ export const routes: Routes = [
           import('./features/listings/pages/create-listing/create-listing/create-listing').then(m => m.CreateListing)
       },
 
-
+      {
+        path: 'listings/mine',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/listings/pages/my-listings/my-listings').then(m => m.MyListings)
+      },
 
       {
         path: 'listings/:id',

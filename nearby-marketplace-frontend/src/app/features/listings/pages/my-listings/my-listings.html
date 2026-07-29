@@ -1,0 +1,54 @@
+<section class="my-listings-page">
+
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">Dashboard</span>
+      <h2>My Listings</h2>
+    </div>
+    <button class="create-btn" (click)="goToCreate()">+ New listing</button>
+  </div>
+
+  @if (loading()) {
+    <p class="state-msg">Loading your listings...</p>
+  } @else if (error()) {
+    <p class="state-msg error">Couldn't load your listings. Please try again.</p>
+  } @else if (listings().length === 0) {
+    <div class="empty-state">
+      <p>You haven't published any listings yet.</p>
+      <button class="create-btn" (click)="goToCreate()">Create your first listing</button>
+    </div>
+  } @else {
+    <div class="my-listing-grid">
+      @for (listing of listings(); track listing.id) {
+        <article class="my-listing-card" (click)="goToDetail(listing.id)">
+
+          <div class="thumb">
+            @if (listing.imageUrls.length > 0) {
+              <img [src]="listing.imageUrls[0]" [alt]="listing.title">
+            } @else {
+              <div class="thumb-placeholder"></div>
+            }
+
+            @if (listing.status !== 'ACTIVE') {
+              <span class="status-badge">{{ listing.status === 'SOLD' ? 'Sold' : 'Inactive' }}</span>
+            }
+          </div>
+
+          <div class="card-body">
+            <span class="price">{{ listing.price | currency:'BRL' }}</span>
+            <h3 class="title">{{ listing.title }}</h3>
+
+            <div class="quick-actions">
+              @if (listing.status === 'ACTIVE') {
+                <button class="quick-btn" (click)="markAsSold($event, listing)">Mark as sold</button>
+              }
+              <button class="quick-btn quick-btn--danger" (click)="deleteListing($event, listing)">Delete</button>
+            </div>
+          </div>
+
+        </article>
+      }
+    </div>
+  }
+
+</section>

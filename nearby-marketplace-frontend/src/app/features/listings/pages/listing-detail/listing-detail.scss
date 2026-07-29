@@ -209,3 +209,36 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.owner-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &--primary {
+    background: linear-gradient(135deg, var(--indigo), var(--violet));
+    color: white;
+    border: none;
+  }
+
+  &--danger {
+    color: #dc2626;
+    border-color: #fecaca;
+
+    &:hover {
+      background: #fef2f2;
+    }
+  }
+}

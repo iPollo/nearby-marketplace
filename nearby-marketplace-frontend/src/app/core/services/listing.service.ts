@@ -27,12 +27,29 @@ export class ListingService {
     return this.http.get<PageResponse<ListingResponse>>(`${this.baseUrl}/nearby`, { params });
   }
 
+  findMine(page = 0, size = 20): Observable<PageResponse<ListingResponse>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<PageResponse<ListingResponse>>(`${this.baseUrl}/mine`, { params });
+  }
+
   findById(id: number): Observable<ListingResponse> {
     return this.http.get<ListingResponse>(`${this.baseUrl}/${id}`);
   }
 
   create(request: ListingRequest): Observable<ListingResponse> {
     return this.http.post<ListingResponse>(this.baseUrl, request);
+  }
+
+  update(id: number, request: ListingRequest): Observable<ListingResponse> {
+    return this.http.put<ListingResponse>(`${this.baseUrl}/${id}`, request);
+  }
+
+  markAsSold(id: number): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/sold`, {});
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   uploadImage(listingId: number, file: File): Observable<string> {

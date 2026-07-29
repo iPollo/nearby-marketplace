@@ -48,7 +48,32 @@ export class ListingDetail implements OnInit {
     return !!listing && !!user && listing.sellerId === user.id;
   }
 
+  markAsSold(): void {
+    const item = this.listing();
+    if (!item) return;
 
+    this.listingService.markAsSold(item.id).subscribe({
+      next: () => this.listing.set({ ...item, status: 'SOLD' as any }),
+      error: () => alert('Could not mark listing as sold. Please try again.')
+    });
+  }
+
+  deleteListing(): void {
+    const item = this.listing();
+    if (!item) return;
+
+    const confirmed = confirm('Are you sure you want to delete this listing? This cannot be undone.');
+    if (!confirmed) return;
+
+    this.listingService.delete(item.id).subscribe({
+      next: () => this.router.navigate(['/listings/mine']),
+      error: () => alert('Could not delete listing. Please try again.')
+    });
+  }
+
+  editListing(): void {
+    this.router.navigate(['/listings', this.listing()!.id, 'edit']);
+  }
 
   selectImage(index: number): void {
     this.activeImageIndex.set(index);
