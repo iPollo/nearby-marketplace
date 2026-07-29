@@ -1,0 +1,246 @@
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ---------- Painel de marca ----------
+.brand-panel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px;
+  color: white;
+  background: linear-gradient(155deg, var(--indigo), var(--violet) 65%, var(--blue));
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+}
+
+.brand-mark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .8;
+}
+
+.brand-panel h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.6rem;
+  line-height: 1.15;
+  font-weight: 700;
+  margin: 20px 0 16px;
+}
+
+.brand-panel p {
+  color: rgba(255, 255, 255, .8);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 340px;
+}
+
+// ---------- Vitrine (assinatura) ----------
+.showcase {
+  position: absolute;
+  right: -40px;
+  bottom: -30px;
+  width: 320px;
+  height: 320px;
+  z-index: 1;
+}
+
+.showcase-card {
+  position: absolute;
+  width: 150px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .18);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, .25);
+}
+
+.showcase-thumb {
+  width: 100%;
+  height: 70px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,255,255,.4), rgba(255,255,255,.1));
+  margin-bottom: 10px;
+}
+
+.showcase-line {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, .35);
+
+  &.short { width: 60%; margin-bottom: 8px; }
+  &.tag {
+    height: auto;
+    background: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+  }
+}
+
+.card-a { top: 10px;  left: 0;   transform: rotate(-6deg); }
+.card-b { top: 90px;  left: 110px; transform: rotate(4deg); z-index: 2; }
+.card-c { top: 190px; left: 20px;  transform: rotate(-2deg); }
+
+// ---------- Painel de cadastro ----------
+.form-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--cloud);
+  padding: 32px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--indigo);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.login-card h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #334155;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid #dbe3ef;
+  font-size: 14px;
+  transition: .2s;
+  background: white;
+
+  &:focus {
+    outline: none;
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 4px rgba(67, 56, 202, .1);
+  }
+}
+
+.form-meta {
+  margin-bottom: 26px;
+
+  .remember {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.5;
+
+    input {
+      accent-color: var(--indigo);
+      margin-top: 3px;
+    }
+
+    a {
+      color: var(--indigo);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
+}
+
+button[type="submit"] {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--indigo), var(--violet));
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  transition: .2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(67, 56, 202, .28);
+  }
+}
+
+.signup-hint {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--muted);
+
+  a {
+    color: var(--indigo);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+}
