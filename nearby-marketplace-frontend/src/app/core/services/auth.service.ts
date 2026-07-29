@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { AuthResponse, DecodedToken, LoginRequest, RegisterRequest, UserResponse } from '../models/auth.model';
 
 const TOKEN_KEY = 'nearby_token';
