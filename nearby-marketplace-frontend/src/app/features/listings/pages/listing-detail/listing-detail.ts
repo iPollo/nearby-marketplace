@@ -44,15 +44,11 @@ export class ListingDetail implements OnInit {
 
   get isOwner(): boolean {
     const listing = this.listing();
-    const email = this.authService.currentUserEmail();
-    // comparação simples por enquanto: refinamos quando tivermos o e-mail do vendedor no DTO
-    return !!listing && !!email && listing.sellerId === this.getCurrentUserId();
+    const user = this.authService.currentUser();
+    return !!listing && !!user && listing.sellerId === user.id;
   }
 
-  private getCurrentUserId(): number | null {
-    // placeholder: o token hoje só carrega o e-mail (sub), não o id do usuário
-    return null;
-  }
+
 
   selectImage(index: number): void {
     this.activeImageIndex.set(index);
