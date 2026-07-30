@@ -1,6 +1,12 @@
 <p align="center">
-  <img src="https://i.imgur.com/gAaEjsB.png" alt="NearBy Marketplace logo" width="500" height = "333">
+  <img src="https://i.imgur.com/BvSDXOc.png" alt="NearBy Marketplace logo" width="500" height = "333">
 </p>
+
+<div align="center">
+  <picture>
+      <img src="assets/kimi-logo.png" width="30%" alt="Kimi K3">
+  </picture>
+</div>
 
 # NearBy Marketplace
 
