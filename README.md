@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/NearByLogo.png" alt="NearBy Marketplace logo" width="90%">
+  <img src="docs/NearByLogo.png" alt="NearBy Marketplace logo" width="70%">
 </p>
 
 
