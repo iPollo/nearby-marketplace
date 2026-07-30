@@ -2,8 +2,6 @@
   <img src="https://i.imgur.com/YUmqd7j.png" alt="NearBy Marketplace logo" width="500" height = "333">
 </p>
 
-<h1 align="center">NearBy Marketplace</h1>
-
 # NearBy Marketplace
 
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
