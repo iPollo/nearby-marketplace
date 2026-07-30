@@ -2,6 +2,7 @@
   <img src="docs/NearByLogo.png" alt="NearBy Marketplace logo" width="90%">
 </p>
 
+
 # NearBy Marketplace
 
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
